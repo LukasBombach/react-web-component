@@ -8,16 +8,16 @@ module.exports = function retargetEvents(shadowRoot) {
       itemProps[eventType](event);
     } else if (itemProps.children) {
       for (var i in itemProps.children) {
-        if (itemProps.children[i].props) dispatchEvent(event, eventType, itemProps.children[i].props);
+        if (itemProps.children.hasOwnProperty(i) && itemProps.children[i].props) dispatchEvent(event, eventType, itemProps.children[i].props);
       }
     }
   }
 
   // Compatible with v0.14 & 15
   function findReactInternal(item) {
-    for (let key in item) {
-      if (item.hasOwnProperty(key) && ~key.indexOf('_reactInternal')) {
-        return item[key];
+    for (var i in item) {
+      if (item.hasOwnProperty(i) && i.indexOf('_reactInternal') !== -1) {
+        return item[i];
       }
     }
   }
