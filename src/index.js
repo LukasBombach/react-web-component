@@ -16,9 +16,9 @@ module.exports = {
           const shadowRoot = this.createShadowRoot();
           const mountPoint = document.createElement('div');
           const styles = getStyleElementsFromReactWebComponentStyleLoader();
-          styles.forEach(style =>
-            shadowRoot.appendChild(style)
-          );
+          for (var i in styles) {
+            shadowRoot.appendChild(styles[i])
+          }
           shadowRoot.appendChild(mountPoint);
           ReactDOM.render(app, mountPoint);
           retargetEvents(shadowRoot);
