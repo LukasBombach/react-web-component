@@ -6,10 +6,10 @@ module.exports = function retargetEvents(shadowRoot) {
   function dispatchEvent(event, eventType, itemProps) {
     if (itemProps[eventType]) {
       itemProps[eventType](event);
-    } else if (itemProps.children && itemProps.children.forEach) {
-      itemProps.children.forEach(child => {
-        child.props && dispatchEvent(event, eventType, child.props);
-      });
+    } else if (itemProps.children) {
+      for (var i in itemProps.children) {
+        itemProps.children[i].props && dispatchEvent(event, eventType, itemProps.children[i].props);
+      }
     }
   }
 
@@ -21,8 +21,8 @@ module.exports = function retargetEvents(shadowRoot) {
       }
     }
   }
-
-  events.forEach(eventType => {
+  for (var i in events) {
+    const eventType = events[i];
     const transformedEventType = eventType.replace(/^on/, '').toLowerCase();
     shadowRoot.addEventListener(transformedEventType, event => {
       const internalComponent = findReactInternal(event.target);
@@ -38,5 +38,5 @@ module.exports = function retargetEvents(shadowRoot) {
         );
       }
     });
-  });
+  }
 };
