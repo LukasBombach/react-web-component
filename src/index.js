@@ -1,8 +1,8 @@
-import ReactDOM from 'react-dom';
-import retargetEvents from './retargetEvents';
-import getStyleElementsFromReactWebComponentStyleLoader from './getStyleElementsFromReactWebComponentStyleLoader';
+const ReactDOM = require('react-dom');
+const retargetEvents = require('./retargetEvents');
+const getStyleElementsFromReactWebComponentStyleLoader = require('./getStyleElementsFromReactWebComponentStyleLoader');
 
-export default {
+module.exports = {
   /**
    * todo fix jsdoc type of app and options
    * @param {*} app
