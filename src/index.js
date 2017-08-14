@@ -15,7 +15,8 @@ module.exports = {
         value: function() {
           const shadowRoot = this.createShadowRoot();
           const mountPoint = document.createElement('div');
-          getStyleElementsFromReactWebComponentStyleLoader().forEach(style =>
+          const styles = getStyleElementsFromReactWebComponentStyleLoader();
+          styles.forEach(style =>
             shadowRoot.appendChild(style)
           );
           shadowRoot.appendChild(mountPoint);
