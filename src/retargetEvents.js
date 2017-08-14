@@ -24,18 +24,10 @@ module.exports = function retargetEvents(shadowRoot) {
   for (var i in events) {
     const eventType = events[i];
     const transformedEventType = eventType.replace(/^on/, '').toLowerCase();
-    shadowRoot.addEventListener(transformedEventType, event => {
+    shadowRoot.addEventListener(transformedEventType, function(event) {
       const internalComponent = findReactInternal(event.target);
-      if (
-        internalComponent &&
-        internalComponent._currentElement &&
-        internalComponent._currentElement.props
-      ) {
-        dispatchEvent(
-          event,
-          eventType,
-          internalComponent._currentElement.props
-        );
+      if (internalComponent && internalComponent._currentElement && internalComponent._currentElement.props) {
+        dispatchEvent(event, eventType, internalComponent._currentElement.props);
       }
     });
   }
