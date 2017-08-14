@@ -8,7 +8,7 @@ module.exports = function retargetEvents(shadowRoot) {
       itemProps[eventType](event);
     } else if (itemProps.children) {
       for (var i in itemProps.children) {
-        itemProps.children[i].props && dispatchEvent(event, eventType, itemProps.children[i].props);
+        if (itemProps.children[i].props) dispatchEvent(event, eventType, itemProps.children[i].props);
       }
     }
   }
