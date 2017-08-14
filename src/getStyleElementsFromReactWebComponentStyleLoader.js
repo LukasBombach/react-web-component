@@ -1,6 +1,6 @@
 module.exports = function getStyleElementsFromReactWebComponentStyleLoader() {
   try {
-    return require('style-loader/export').styleElements;
+    return require('react-web-component-style-loader/export').styleElements;
   } catch (e) {
     return [];
   }
