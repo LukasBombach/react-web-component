@@ -57,6 +57,10 @@ module.exports = function retargetEvents(shadowRoot) {
 
         if (internalComponent && internalComponent._currentElement && internalComponent._currentElement.props) {
           dispatchEvent(event, eventType, internalComponent._currentElement.props);
+          // This mimics React's onChange behavior
+          if (eventType === 'onInput') {
+            dispatchEvent(event, 'onChange', internalComponent._currentElement.props);
+          }
         }
 
         if (item === shadowRoot) {
