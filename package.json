@@ -6,6 +6,7 @@
   "author": "Lukas Bombach <lukas.bombach@googlemail.com>",
   "license": "MIT",
   "dependencies": {
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "react-shadow-dom-retarget-events": "^1.0.4"
   }
 }

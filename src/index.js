@@ -1,5 +1,5 @@
 const ReactDOM = require('react-dom');
-const retargetEvents = require('./retargetEvents');
+const retargetEvents = require('react-shadow-dom-retarget-events');
 const getStyleElementsFromReactWebComponentStyleLoader = require('./getStyleElementsFromReactWebComponentStyleLoader');
 
 module.exports = {
