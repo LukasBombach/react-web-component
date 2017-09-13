@@ -6,6 +6,12 @@
 
 Create Web Components with React
 
+* [Installation](#installation)
+* [Basic Usage](#basic-usage)
+* [Adding CSS to your web component using `react-web-component-style-loader`](#adding-css-to-your-web-component-using-react-web-component-style-loader)
+* [Adding CSS to your web component imperatively](#adding-css-to-your-web-component-imperatively)
+* [Usage with `react-router`](#usage-with-react-router)
+
 ## Installation
 
 React Web Component is available as the `react-web-component` package on npm.
