@@ -12,6 +12,7 @@ Create Web Components with React
 * [Adding CSS to your web component imperatively](#adding-css-to-your-web-component-imperatively)
 * [Usage with `react-router`](#usage-with-react-router)
 * [Issues](#issues)
+* [Maintainers](#maintainers)
 
 ## Installation
 
@@ -121,3 +122,19 @@ ReactWebComponent.create(<RoutedApp />, 'my-routed-component');
 ### Some events won't be triggered
 
 If you encounter that an event that you rely on will not get triggered this is probably our fault (or Facebook's to be precise). React does not catch events inside shadow dom. A bug ticket has been filed for this at [react#10422](https://github.com/facebook/react/issues/10422). For now, we have created a workaround for this [in the shape of another npm package](https://github.com/WeltN24/react-shadow-dom-retarget-events) that this library depends on. In this library we listen for events on the DOM level and pass them on to React. If an event does not get triggered it probably means we have forgotten it in the list of events that we subscribe to. This is very inconvenient but not a problem. We can simply add it. Open an issue or a PR at [WeltN24/react-shadow-dom-retarget-events](https://github.com/WeltN24/react-shadow-dom-retarget-events) and we will gladly add the event.
+
+## Maintainers
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/LukasBombach">
+          <img width="150" height="150" src="https://github.com/LukasBombach.png?v=3&s=150">
+          </br>
+          Lukas Bombach
+        </a>
+      </td>
+    </tr>
+  <tbody>
+</table>
