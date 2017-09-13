@@ -4,11 +4,6 @@
 
 # React Web Component
 
-[![npm][npm]][npm-url]
-[![node][node]][node-url]
-[![deps][deps]][deps-url]
-[![chat][chat]][chat-url]
-
 Create Web Components with React
 
 * [Installation](#installation)
