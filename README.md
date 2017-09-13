@@ -69,12 +69,42 @@ Using the `react-web-component-style-loader` both the CSS from `app.css` as well
 
 ## Adding CSS to your web component imperatively
 
-*todo: allow `ReactWebComponent.create(<App />, 'my-component', { style: '' });` and `ReactWebComponent.create(<App />, 'my-component', { cssFile: '' });`*
+* *todo: allow `ReactWebComponent.create(<App />, 'my-component', { style: '' });`*
+* *todo: allow `ReactWebComponent.create(<App />, 'my-component', { cssFile: '' });`*
 
 ## Usage with `react-router`
 
-`react-web-component` works with `react-router` with one restriction: Since web components live within a host website you should now modify the URL of the website when the web component does internal routing. Luckily `react-router` comes with an _in memory_ router that does not alter the URL and keeps the state of the router interanlly.
+`react-web-component` works with `react-router` with one restriction: Since web components live within a host website you should now modify the URL of the website when the web component does internal routing. Luckily `react-router` comes with an _in memory_ router that does not alter the URL and keeps the state of the router internally.
 
 ```javascript
-// todo code example
+import React from 'react';
+import {
+  MemoryRouter as Router,
+  Route,
+  Link,
+  withRouter
+} from 'react-router-dom';
+import ReactWebComponent from 'react-web-component';
+import { Home, About, Topics } from './components';
+
+const App = withRouter(({ history}) => (
+  <div>
+    <ul>
+      <li><Link to="/">Home</Link></li>
+      <li><Link to="/about">About</Link></li>
+      <li><Link to="/topics">Topics</Link></li>
+    </ul>
+    <Route exact path="/" component={Home}/>
+    <Route path="/about" component={About}/>
+    <Route path="/topics" component={Topics}/>
+  </div>
+))
+
+const RoutedApp = () => (
+  <Router initialEntries={[ '/' ]}>
+    <App />
+  </Router>
+);
+
+ReactWebComponent.create(<RoutedApp />, 'my-routed-component');
 ```
