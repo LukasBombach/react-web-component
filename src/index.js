@@ -4,24 +4,72 @@ const getStyleElementsFromReactWebComponentStyleLoader = require('./getStyleElem
 
 module.exports = {
   /**
-   * todo fix jsdoc type of app and options
+   * todo fix jsdoc type of app
    * @param {*} app
    * @param {string} tagName
-   * @param {Object} [options]
    */
-  create: function(app, tagName, options) {
+  create: function(app, tagName) {
+
+    let appInstance;
+
+    const lifeCycleHooks = {
+      attachedCallback: 'webComponentAttached',
+      connectedCallback: 'webComponentConnected',
+      disconnectedCallback: 'webComponentDisconnected',
+      attributeChangedCallback: 'webComponentAttributeChanged',
+      adoptedCallback: 'webComponentAdopted'
+    };
+
+    function callConstructorHook(proto) {
+        if (appInstance['webComponentConstructed']) {
+            appInstance['webComponentConstructed'].apply(appInstance, [proto])
+        }
+    }
+
+    function callLifeCycleHook(hook, params) {
+        const instanceParams = params || [];
+        const instanceMethod = lifeCycleHooks[hook];
+        if (instanceMethod && appInstance[instanceMethod]) {
+            appInstance[instanceMethod].apply(appInstance, instanceParams)
+        }
+    }
+
     const proto = Object.create(HTMLElement.prototype, {
       attachedCallback: {
         value: function() {
           const shadowRoot = this.createShadowRoot();
           const mountPoint = document.createElement('div');
           const styles = getStyleElementsFromReactWebComponentStyleLoader();
-          for (var i in styles) {
+          for (let i = 0; i < styles.length; i++) {
             shadowRoot.appendChild(styles[i])
           }
           shadowRoot.appendChild(mountPoint);
-          ReactDOM.render(app, mountPoint);
+          ReactDOM.render(app, mountPoint, function () {
+              appInstance = this;
+              callConstructorHook(proto);
+              callLifeCycleHook('attachedCallback');
+          });
           retargetEvents(shadowRoot);
+        },
+      },
+      connectedCallback: {
+        value: function() {
+          callLifeCycleHook('connectedCallback');
+        },
+      },
+      disconnectedCallback: {
+        value: function() {
+          callLifeCycleHook('disconnectedCallback');
+        },
+      },
+      attributeChangedCallback: {
+        value: function(attributeName, oldValue, newValue, namespace) {
+          callLifeCycleHook('attributeChangedCallback', [attributeName, oldValue, newValue, namespace]);
+        },
+      },
+      adoptedCallback: {
+        value: function(oldDocument, newDocument) {
+          callLifeCycleHook('adoptedCallback', [oldDocument, newDocument]);
         },
       },
     });
