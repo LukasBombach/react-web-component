@@ -10,7 +10,7 @@ module.exports = {
    */
   create: function(app, tagName) {
 
-    let appInstance;
+    var appInstance;
 
     const lifeCycleHooks = {
       attachedCallback: 'webComponentAttached',
@@ -20,9 +20,9 @@ module.exports = {
       adoptedCallback: 'webComponentAdopted'
     };
 
-    function callConstructorHook(proto) {
+    function callConstructorHook(webComponentInstance) {
         if (appInstance['webComponentConstructed']) {
-            appInstance['webComponentConstructed'].apply(appInstance, [proto])
+            appInstance['webComponentConstructed'].apply(appInstance, [webComponentInstance])
         }
     }
 
@@ -40,13 +40,14 @@ module.exports = {
           const shadowRoot = this.createShadowRoot();
           const mountPoint = document.createElement('div');
           const styles = getStyleElementsFromReactWebComponentStyleLoader();
-          for (let i = 0; i < styles.length; i++) {
+          const webComponentInstance = this;
+          for (var i = 0; i < styles.length; i++) {
             shadowRoot.appendChild(styles[i])
           }
           shadowRoot.appendChild(mountPoint);
           ReactDOM.render(app, mountPoint, function () {
               appInstance = this;
-              callConstructorHook(proto);
+              callConstructorHook(webComponentInstance);
               callLifeCycleHook('attachedCallback');
           });
           retargetEvents(shadowRoot);
