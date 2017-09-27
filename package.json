@@ -1,6 +1,6 @@
 {
   "name": "react-web-component",
-  "version": "1.0.5-alpha",
+  "version": "1.0.6-alpha",
   "description": "Create Web Components with React",
   "main": "src/index.js",
   "author": "Lukas Bombach <lukas.bombach@googlemail.com>",
@@ -8,6 +8,6 @@
   "repository": "WeltN24/react-web-component",
   "dependencies": {
     "react-dom": "^15.6.1",
-    "react-shadow-dom-retarget-events": "^1.0.4"
+    "react-shadow-dom-retarget-events": "^1.0.7"
   }
 }
