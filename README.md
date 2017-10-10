@@ -8,6 +8,7 @@ Create Web Components with React
 
 * [Installation](#installation)
 * [Basic Usage](#basic-usage)
+* [Lifecycle methods](#lifecycle-methods)
 * [Adding CSS to your web component using `react-web-component-style-loader`](#adding-css-to-your-web-component-using-react-web-component-style-loader)
 * [Adding CSS to your web component imperatively](#adding-css-to-your-web-component-imperatively)
 * [Usage with `react-router`](#usage-with-react-router)
