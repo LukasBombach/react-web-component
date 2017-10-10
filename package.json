@@ -1,6 +1,6 @@
 {
   "name": "react-web-component",
-  "version": "1.0.11-alpha",
+  "version": "1.0.2-alpha",
   "description": "Create Web Components with React",
   "main": "src/index.js",
   "author": "Lukas Bombach <lukas.bombach@googlemail.com>",
