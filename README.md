@@ -46,6 +46,43 @@ Then in your HTML simply use your web component, in this case named `my-componen
 
 Note that `react-web-component` does not limit you in the complexity of your React component. You can pass an entire single page application in your web component if you need to.
 
+## Lifecycle methods
+
+Web Components have their own lifecycle methods so we proxy them to your React Component. The following table shows which Web Component lifecycle method will trigger which lifecycle method on your React Component:
+
+| Web Component            | React Component              |
+| -----------------------  | ---------------------------- |
+| attachedCallback         | webComponentAttached         |
+| connectedCallback        | webComponentConnected        |
+| disconnectedCallback     | webComponentDisconnected     |
+| attributeChangedCallback | webComponentAttributeChanged |
+| adoptedCallback          | webComponentAdopted          |
+
+**Example:**
+
+```javascript
+import React from 'react';
+import ReactWebComponent from 'react-web-component';
+
+class App extends React.Component {
+
+  componentDidMount() {
+    // Regular React lifecycle method
+  }
+
+  webComponentAttached() {
+    // will be called when the Web Component has been attached
+  }
+
+  render() {
+    return <div>Hello World!</div>;
+  }
+}
+
+ReactWebComponent.create(<App />, 'my-component');
+```
+
+
 ## Adding CSS to your web component using `react-web-component-style-loader`
 
 The challenge of adding CSS to your web component is that (as compared to a regular React component) you cannot simply put your CSS anywhere in your site, you need to inject it into the shadow dom of your web component, while at the same time you'll still want to use state of the art tooling (i.e. webpack) and create component based (S)CSS files.
