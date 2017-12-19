@@ -45,6 +45,28 @@ Then in your HTML simply use your web component, in this case named `my-componen
 <my-component></my-component>
 ```
 
+It is also possible to create multiple web components in a single project and pass on props:
+
+```javascript
+import React from 'react';
+import ReactWebComponent from 'react-web-component';
+
+class MyComponent extends React.Component {
+  render() {
+    return <div>Hello World!</div>;
+  }
+}
+
+class AnotherComponent extends React.Component {
+  render() {
+    return <div>Hello {this.props.name}!</div>;
+  }
+}
+
+ReactWebComponent.create(<MyComponent />, 'my-component');
+ReactWebComponent.create(<AnotherComponent name="Mars" />, 'another-component');
+```
+
 Note that `react-web-component` does not limit you in the complexity of your React component. You can pass an entire single page application in your web component if you need to.
 
 ## Lifecycle methods
@@ -83,6 +105,7 @@ class App extends React.Component {
 ReactWebComponent.create(<App />, 'my-component');
 ```
 
+Parameters passed to the web component methods will also be proxied to the react component.
 
 ## Adding CSS to your web component using `react-web-component-style-loader`
 

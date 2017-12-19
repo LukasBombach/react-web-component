@@ -42,7 +42,7 @@ module.exports = {
           const styles = getStyleElementsFromReactWebComponentStyleLoader();
           const webComponentInstance = this;
           for (var i = 0; i < styles.length; i++) {
-            shadowRoot.appendChild(styles[i])
+              shadowRoot.appendChild(styles[i].cloneNode(true));
           }
           shadowRoot.appendChild(mountPoint);
           ReactDOM.render(app, mountPoint, function () {
