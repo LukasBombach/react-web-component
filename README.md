@@ -45,6 +45,16 @@ Then in your HTML simply use your web component, in this case named `my-componen
 <my-component></my-component>
 ```
 
+By default the `shadowRoot` is enabled. This allows for styles isolation and prevents component styles from 
+*bleeding out* to other parts of the application. It also prevents outer styles from affecting the web component you are creating. 
+
+In case that you want your component to inherit styles from the parent you can opt-out of the shadowRoot.
+To do that you can pass an **optional** parameter to the `create` method:
+```js
+ReactWebComponent.create(<App />, 'my-component', true);
+```
+
+
 It is also possible to create multiple web components in a single project and pass on props:
 
 ```javascript

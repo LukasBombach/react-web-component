@@ -1,13 +1,24 @@
 {
   "name": "react-web-component",
-  "version": "1.0.14",
+  "version": "1.1.1",
   "description": "Create Web Components with React",
   "main": "src/index.js",
+  "types": "index.d.ts",
   "author": "Lukas Bombach <lukas.bombach@googlemail.com>",
   "license": "MIT",
   "repository": "WeltN24/react-web-component",
+  "scripts": {
+    "build": "babel src/dev -d src --presets minify"
+  },
   "dependencies": {
-    "react-dom": "^16.0.0",
+    "react-dom": "^16.2.0",
     "react-shadow-dom-retarget-events": "^1.0.8"
+  },
+  "devDependencies": {
+    "@types/react": "^16.0.38",
+    "babel-cli": "^6.26.0",
+    "babel-minify": "^0.3.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-minify": "^0.3.0"
   }
 }
