@@ -9,5 +9,9 @@
   "dependencies": {
     "react-dom": "^16.2.0",
     "react-shadow-dom-retarget-events": "^1.0.8"
+  },
+  "devDependencies": {
+    "@types/react": "^16.0.38",
+    "react-web-component-style-loader": "^0.1.4-alpha"
   }
 }

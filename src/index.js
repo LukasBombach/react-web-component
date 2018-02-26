@@ -5,10 +5,10 @@ const getStyleElementsFromReactWebComponentStyleLoader = require('./getStyleElem
 module.exports = {
   /**
    * @param {function} app
-   * @param {string} tagName - the name of the web component
-   * @param {boolean} optOutFromShadowRoot - default value is false
+   * @param {string} tagName - The name of the web component.
+   * @param {boolean} useShadowDom - If value is set to `true` it will use the `shadowDom`. The default value is true.
    */
-  create: function(app, tagName, optOutFromShadowRoot) {
+  create: function(app, tagName, useShadowDom = true) {
 
     let appInstance;
 
@@ -40,7 +40,7 @@ module.exports = {
           let webComponentInstance = this;
           let mountPoint = webComponentInstance;
 
-          if (!optOutFromShadowRoot) {
+          if (useShadowDom) {
             // Re-assign the webComponentInstance / "this" to the newly created shadow root
             webComponentInstance = webComponentInstance.createShadowRoot();
             // Re-assign the mountPoint to the newly created "div" element
