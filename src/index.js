@@ -4,13 +4,13 @@ const getStyleElementsFromReactWebComponentStyleLoader = require('./getStyleElem
 
 module.exports = {
   /**
-   * todo fix jsdoc type of app
-   * @param {*} app
-   * @param {string} tagName
+   * @param {function} app
+   * @param {string} tagName - The name of the web component.
+   * @param {boolean} useShadowDom - If value is set to `true` it will use the `shadowDom`. The default value is true.
    */
-  create: function(app, tagName) {
+  create: function(app, tagName, useShadowDom = true) {
 
-    var appInstance;
+    let appInstance;
 
     const lifeCycleHooks = {
       attachedCallback: 'webComponentAttached',
@@ -21,36 +21,47 @@ module.exports = {
     };
 
     function callConstructorHook(webComponentInstance) {
-        if (appInstance['webComponentConstructed']) {
-            appInstance['webComponentConstructed'].apply(appInstance, [webComponentInstance])
-        }
+      if (appInstance['webComponentConstructed']) {
+        appInstance['webComponentConstructed'].apply(appInstance, [webComponentInstance])
+      }
     }
 
     function callLifeCycleHook(hook, params) {
-        const instanceParams = params || [];
-        const instanceMethod = lifeCycleHooks[hook];
-        if (instanceMethod && appInstance[instanceMethod]) {
-            appInstance[instanceMethod].apply(appInstance, instanceParams)
-        }
+      const instanceParams = params || [];
+      const instanceMethod = lifeCycleHooks[hook];
+      if (instanceMethod && appInstance[instanceMethod]) {
+        appInstance[instanceMethod].apply(appInstance, instanceParams)
+      }
     }
 
     const proto = Object.create(HTMLElement.prototype, {
       attachedCallback: {
         value: function() {
-          const shadowRoot = this.createShadowRoot();
-          const mountPoint = document.createElement('div');
-          const styles = getStyleElementsFromReactWebComponentStyleLoader();
-          const webComponentInstance = this;
-          for (var i = 0; i < styles.length; i++) {
-              shadowRoot.appendChild(styles[i].cloneNode(true));
+          let webComponentInstance = this;
+          let mountPoint = webComponentInstance;
+
+          if (useShadowDom) {
+            // Re-assign the webComponentInstance / "this" to the newly created shadow root
+            webComponentInstance = webComponentInstance.createShadowRoot();
+            // Re-assign the mountPoint to the newly created "div" element
+            mountPoint = document.createElement('div');
+
+            const styles = getStyleElementsFromReactWebComponentStyleLoader();
+
+            for (let i = 0; i < styles.length; i++) {
+              webComponentInstance.appendChild(styles[i].cloneNode(webComponentInstance));
+            }
+
+            webComponentInstance.appendChild(mountPoint);
           }
-          shadowRoot.appendChild(mountPoint);
+
           ReactDOM.render(app, mountPoint, function () {
-              appInstance = this;
-              callConstructorHook(webComponentInstance);
-              callLifeCycleHook('attachedCallback');
+            appInstance = this;
+            callConstructorHook(webComponentInstance);
+            callLifeCycleHook('attachedCallback');
           });
-          retargetEvents(shadowRoot);
+
+          retargetEvents(webComponentInstance);
         },
       },
       connectedCallback: {
