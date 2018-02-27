@@ -1,6 +1,6 @@
 {
   "name": "react-web-component",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Create Web Components with React",
   "main": "src/index.js",
   "types": "index.d.ts",
@@ -8,11 +8,13 @@
   "license": "MIT",
   "repository": "WeltN24/react-web-component",
   "scripts": {
-    "build": "babel src/dev -d src --presets minify"
+    "build": "babel src/dev -d src --presets minify && babel src/dev -d src/source "
   },
   "dependencies": {
-    "react-dom": "^16.2.0",
     "react-shadow-dom-retarget-events": "^1.0.8"
+  },
+  "peerDependencies": {
+    "react-dom": "^16.2.0"
   },
   "devDependencies": {
     "@types/react": "^16.0.38",

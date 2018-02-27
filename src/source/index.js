@@ -1,7 +1,9 @@
-const ReactDOM = require('react-dom');
-const retargetEvents = require('react-shadow-dom-retarget-events');
-const getStyleElementsFromReactWebComponentStyleLoader = require('./getStyleElementsFromReactWebComponentStyleLoader');
-const extractAttributes = require('./extractAttributes');
+'use strict';
+
+var ReactDOM = require('react-dom');
+var retargetEvents = require('react-shadow-dom-retarget-events');
+var getStyleElementsFromReactWebComponentStyleLoader = require('./getStyleElementsFromReactWebComponentStyleLoader');
+var extractAttributes = require('./extractAttributes');
 
 module.exports = {
   /**
@@ -9,10 +11,12 @@ module.exports = {
    * @param {string} tagName - The name of the web component. Has to be minus "-" delimited.
    * @param {boolean} useShadowDom - If the value is set to "true" the web component will use the `shadowDom`. The default value is true.
    */
-  create: (app, tagName, useShadowDom = true) => {
-    let appInstance;
+  create: function create(app, tagName) {
+    var useShadowDom = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
-    const lifeCycleHooks = {
+    var appInstance = void 0;
+
+    var lifeCycleHooks = {
       attachedCallback: 'webComponentAttached',
       connectedCallback: 'webComponentConnected',
       disconnectedCallback: 'webComponentDisconnected',
@@ -22,24 +26,24 @@ module.exports = {
 
     function callConstructorHook(webComponentInstance) {
       if (appInstance['webComponentConstructed']) {
-        appInstance['webComponentConstructed'].apply(appInstance, [webComponentInstance])
+        appInstance['webComponentConstructed'].apply(appInstance, [webComponentInstance]);
       }
     }
 
     function callLifeCycleHook(hook, params) {
-      const instanceParams = params || [];
-      const instanceMethod = lifeCycleHooks[hook];
+      var instanceParams = params || [];
+      var instanceMethod = lifeCycleHooks[hook];
 
       if (instanceMethod && appInstance && appInstance[instanceMethod]) {
         appInstance[instanceMethod].apply(appInstance, instanceParams);
       }
     }
 
-    const proto = Object.create(HTMLElement.prototype, {
+    var proto = Object.create(HTMLElement.prototype, {
       attachedCallback: {
-        value: function() {
-          let webComponentInstance = this;
-          let mountPoint = webComponentInstance;
+        value: function value() {
+          var webComponentInstance = this;
+          var mountPoint = webComponentInstance;
 
           if (useShadowDom) {
             // Re-assign the webComponentInstance (this) to the newly created shadowRoot
@@ -50,8 +54,8 @@ module.exports = {
 
             // Move all of the styles assigned to the react component inside of the shadowRoot.
             // By default this is not used, only if the library is explicitly installed
-            const styles = getStyleElementsFromReactWebComponentStyleLoader();
-            styles.forEach((style) => {
+            var styles = getStyleElementsFromReactWebComponentStyleLoader();
+            styles.forEach(function (style) {
               webComponentInstance.appendChild(style.cloneNode(webComponentInstance));
             });
 
@@ -67,30 +71,30 @@ module.exports = {
             callConstructorHook(webComponentInstance);
             callLifeCycleHook('attachedCallback');
           });
-        },
+        }
       },
       connectedCallback: {
-        value: () => {
+        value: function value() {
           callLifeCycleHook('connectedCallback');
-        },
+        }
       },
       disconnectedCallback: {
-        value: () => {
+        value: function value() {
           callLifeCycleHook('disconnectedCallback');
-        },
+        }
       },
       attributeChangedCallback: {
-        value: (attributeName, oldValue, newValue, namespace) => {
+        value: function value(attributeName, oldValue, newValue, namespace) {
           callLifeCycleHook('attributeChangedCallback', [attributeName, oldValue, newValue, namespace]);
-        },
+        }
       },
       adoptedCallback: {
-        value: (oldDocument, newDocument) => {
+        value: function value(oldDocument, newDocument) {
           callLifeCycleHook('adoptedCallback', [oldDocument, newDocument]);
-        },
-      },
+        }
+      }
     });
 
     document.registerElement(tagName, { prototype: proto });
-  },
+  }
 };
