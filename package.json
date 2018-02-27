@@ -8,7 +8,7 @@
   "license": "MIT",
   "repository": "WeltN24/react-web-component",
   "scripts": {
-    "build": "babel src/dev -d src --presets minify && babel src/dev -d src/source "
+    "build": "babel src/dev -d src --presets minify"
   },
   "dependencies": {
     "react-shadow-dom-retarget-events": "^1.0.8"
