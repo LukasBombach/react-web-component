@@ -7,6 +7,8 @@
   "license": "MIT",
   "repository": "WeltN24/react-web-component",
   "dependencies": {
+    "@webcomponents/custom-elements": "^1.1.2",
+    "@webcomponents/shadydom": "^1.1.0",
     "react-dom": "^16.0.0",
     "react-shadow-dom-retarget-events": "^1.0.8"
   }

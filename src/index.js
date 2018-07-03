@@ -2,6 +2,9 @@ const ReactDOM = require('react-dom');
 const retargetEvents = require('react-shadow-dom-retarget-events');
 const getStyleElementsFromReactWebComponentStyleLoader = require('./getStyleElementsFromReactWebComponentStyleLoader');
 
+require('@webcomponents/shadydom');
+require('@webcomponents/custom-elements');
+
 module.exports = {
   /**
    * todo fix jsdoc type of app
@@ -13,7 +16,6 @@ module.exports = {
     var appInstance;
 
     const lifeCycleHooks = {
-      attachedCallback: 'webComponentAttached',
       connectedCallback: 'webComponentConnected',
       disconnectedCallback: 'webComponentDisconnected',
       attributeChangedCallback: 'webComponentAttributeChanged',
@@ -34,46 +36,37 @@ module.exports = {
         }
     }
 
-    const proto = Object.create(HTMLElement.prototype, {
-      attachedCallback: {
-        value: function() {
-          const shadowRoot = this.createShadowRoot();
-          const mountPoint = document.createElement('div');
-          const styles = getStyleElementsFromReactWebComponentStyleLoader();
-          const webComponentInstance = this;
-          for (var i = 0; i < styles.length; i++) {
-              shadowRoot.appendChild(styles[i].cloneNode(true));
-          }
-          shadowRoot.appendChild(mountPoint);
-          ReactDOM.render(app, mountPoint, function () {
-              appInstance = this;
-              callConstructorHook(webComponentInstance);
-              callLifeCycleHook('attachedCallback');
-          });
-          retargetEvents(shadowRoot);
-        },
-      },
-      connectedCallback: {
-        value: function() {
+    const proto = class extends HTMLElement {
+      connectedCallback() {
+        const shadowRoot = this.attachShadow({ mode: 'open' });
+        const mountPoint = document.createElement('div');
+        const styles = getStyleElementsFromReactWebComponentStyleLoader();
+        const webComponentInstance = this;
+        for (var i = 0; i < styles.length; i++) {
+          shadowRoot.appendChild(styles[i].cloneNode(true));
+        }
+        shadowRoot.appendChild(mountPoint);
+        ReactDOM.render(app, mountPoint, function () {
+          appInstance = this;
+          callConstructorHook(webComponentInstance);
           callLifeCycleHook('connectedCallback');
-        },
-      },
-      disconnectedCallback: {
-        value: function() {
-          callLifeCycleHook('disconnectedCallback');
-        },
-      },
-      attributeChangedCallback: {
-        value: function(attributeName, oldValue, newValue, namespace) {
-          callLifeCycleHook('attributeChangedCallback', [attributeName, oldValue, newValue, namespace]);
-        },
-      },
-      adoptedCallback: {
-        value: function(oldDocument, newDocument) {
-          callLifeCycleHook('adoptedCallback', [oldDocument, newDocument]);
-        },
-      },
-    });
-    document.registerElement(tagName, { prototype: proto });
+        });
+        retargetEvents(shadowRoot);
+      }
+
+      disconnectedCallback() {
+        callLifeCycleHook('disconnectedCallback');
+      }
+
+      attributeChangedCallback(attributeName, oldValue, newValue, namespace) {
+        callLifeCycleHook('attributeChangedCallback', [attributeName, oldValue, newValue, namespace]);
+      }
+
+      adoptedCallback(oldDocument, newDocument) {
+        callLifeCycleHook('adoptedCallback', [oldDocument, newDocument]);
+      }
+    };
+
+    customElements.define(tagName, proto);
   },
 };
