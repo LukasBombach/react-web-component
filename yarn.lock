@@ -6,6 +6,16 @@
   version "16.0.38"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.38.tgz#76617433ea10274505f60bb86eddfdd0476ffdc2"
 
+"@webcomponents/custom-elements@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@webcomponents/custom-elements/-/custom-elements-1.2.1.tgz#0b9c8d06c6d8f059752ff389a6e4418f393338e7"
+  integrity sha512-flmTp4rVbBkcUIF3eBO3LNoAaYvleTdhPZKzdzr6iztWLLrxCctcK+7MAQeC3/SPjc3JDdC3jYLMRF4R6C3f9g==
+
+"@webcomponents/shadydom@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@webcomponents/shadydom/-/shadydom-1.4.3.tgz#11dde3801a3906b6619f83371c39225e51a72799"
+  integrity sha512-+JV7NLczFGbYZ51TT8+smq0QPXiArU6lVeRiR0xtBAE5z3/ORKBNXl5JV5iu27B1wtrv8RLehoLHjb9Rukkayg==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"

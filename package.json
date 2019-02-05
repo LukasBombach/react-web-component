@@ -11,7 +11,9 @@
     "build": "babel src/dev -d src --presets minify"
   },
   "dependencies": {
-    "react-shadow-dom-retarget-events": "^1.0.8"
+    "react-shadow-dom-retarget-events": "^1.0.8",
+    "@webcomponents/custom-elements": "^1.2.1",
+    "@webcomponents/shadydom": "^1.4.3"
   },
   "peerDependencies": {
     "react-dom": "^16.2.0"

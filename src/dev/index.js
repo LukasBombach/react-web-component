@@ -3,6 +3,9 @@ const retargetEvents = require('react-shadow-dom-retarget-events');
 const getStyleElementsFromReactWebComponentStyleLoader = require('./getStyleElementsFromReactWebComponentStyleLoader');
 const extractAttributes = require('./extractAttributes');
 
+require('@webcomponents/shadydom');
+require('@webcomponents/custom-elements');
+
 module.exports = {
   /**
    * @param {JSX.Element} app
@@ -35,62 +38,49 @@ module.exports = {
       }
     }
 
-    const proto = Object.create(HTMLElement.prototype, {
-      attachedCallback: {
-        value: function() {
-          let webComponentInstance = this;
-          let mountPoint = webComponentInstance;
+    const proto = class extends HTMLElement {
+      connectedCallback() {
+        let webComponentInstance = this;
+        let mountPoint = webComponentInstance;
 
-          if (useShadowDom) {
-            // Re-assign the webComponentInstance (this) to the newly created shadowRoot
-            webComponentInstance = webComponentInstance.createShadowRoot();
+        if (useShadowDom) {
+          // Re-assign the webComponentInstance (this) to the newly created shadowRoot
+          webComponentInstance = webComponentInstance.attachShadow({ mode: 'open' });
+          // Re-assign the mountPoint to the newly created "div" element
+          mountPoint = document.createElement('div');
 
-            // Re-assign the mountPoint to the newly created "div" element
-            mountPoint = document.createElement('div');
-
-            // Move all of the styles assigned to the react component inside of the shadowRoot.
-            // By default this is not used, only if the library is explicitly installed
-            const styles = getStyleElementsFromReactWebComponentStyleLoader();
-            styles.forEach((style) => {
-              webComponentInstance.appendChild(style.cloneNode(webComponentInstance));
-            });
-
-            webComponentInstance.appendChild(mountPoint);
-
-            retargetEvents(webComponentInstance);
-          }
-
-          ReactDOM.render(app, mountPoint, function () {
-            appInstance = this;
-            appInstance.props = extractAttributes(webComponentInstance);
-
-            callConstructorHook(webComponentInstance);
-            callLifeCycleHook('attachedCallback');
+          // Move all of the styles assigned to the react component inside of the shadowRoot.
+          // By default this is not used, only if the library is explicitly installed
+          const styles = getStyleElementsFromReactWebComponentStyleLoader();
+          styles.forEach((style) => {
+            webComponentInstance.appendChild(style.cloneNode(webComponentInstance));
           });
-        },
-      },
-      connectedCallback: {
-        value: () => {
-          callLifeCycleHook('connectedCallback');
-        },
-      },
-      disconnectedCallback: {
-        value: () => {
-          callLifeCycleHook('disconnectedCallback');
-        },
-      },
-      attributeChangedCallback: {
-        value: (attributeName, oldValue, newValue, namespace) => {
-          callLifeCycleHook('attributeChangedCallback', [attributeName, oldValue, newValue, namespace]);
-        },
-      },
-      adoptedCallback: {
-        value: (oldDocument, newDocument) => {
-          callLifeCycleHook('adoptedCallback', [oldDocument, newDocument]);
-        },
-      },
-    });
 
-    document.registerElement(tagName, { prototype: proto });
+          webComponentInstance.appendChild(mountPoint);
+
+          retargetEvents(webComponentInstance);
+        }
+
+        ReactDOM.render(app, mountPoint, () => {
+          appInstance = this;
+          appInstance.props = extractAttributes(webComponentInstance);
+
+          callConstructorHook(webComponentInstance);
+          callLifeCycleHook('connectedCallback');
+        });
+        retargetEvents(shadowRoot);
+      }
+      disconnectedCallback () {
+          callLifeCycleHook('disconnectedCallback');
+      }
+      attributeChangedCallback (attributeName, oldValue, newValue, namespace) {
+        callLifeCycleHook('attributeChangedCallback', [attributeName, oldValue, newValue, namespace]);
+      }
+      adoptedCallback (oldDocument, newDocument) {
+        callLifeCycleHook('adoptedCallback', [oldDocument, newDocument]);
+      }
+    }
+
+    customElements.define(tagName, proto);
   },
 };
