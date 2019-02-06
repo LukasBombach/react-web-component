@@ -40,12 +40,12 @@ module.exports = {
 
     const proto = class extends HTMLElement {
       connectedCallback() {
-        let webComponentInstance = this;
+        const webComponentInstance = this;
         let mountPoint = webComponentInstance;
 
         if (useShadowDom) {
           // Re-assign the webComponentInstance (this) to the newly created shadowRoot
-          webComponentInstance = webComponentInstance.attachShadow({ mode: 'open' });
+          const shadowRoot = webComponentInstance.attachShadow({ mode: 'open' });
           // Re-assign the mountPoint to the newly created "div" element
           mountPoint = document.createElement('div');
 
@@ -53,22 +53,21 @@ module.exports = {
           // By default this is not used, only if the library is explicitly installed
           const styles = getStyleElementsFromReactWebComponentStyleLoader();
           styles.forEach((style) => {
-            webComponentInstance.appendChild(style.cloneNode(webComponentInstance));
+            shadowRoot.appendChild(style.cloneNode(shadowRoot));
           });
 
-          webComponentInstance.appendChild(mountPoint);
+          shadowRoot.appendChild(mountPoint);
 
-          retargetEvents(webComponentInstance);
+          retargetEvents(shadowRoot);
         }
 
-        ReactDOM.render(app, mountPoint, () => {
+        ReactDOM.render(app, mountPoint, function () {
           appInstance = this;
-          appInstance.props = extractAttributes(webComponentInstance);
+          appInstance.props = Object.assign(extractAttributes(webComponentInstance), appInstance.props);
 
           callConstructorHook(webComponentInstance);
           callLifeCycleHook('connectedCallback');
         });
-        retargetEvents(webComponentInstance);
       }
       disconnectedCallback () {
           callLifeCycleHook('disconnectedCallback');
