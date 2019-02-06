@@ -68,7 +68,7 @@ module.exports = {
           callConstructorHook(webComponentInstance);
           callLifeCycleHook('connectedCallback');
         });
-        retargetEvents(shadowRoot);
+        retargetEvents(webComponentInstance);
       }
       disconnectedCallback () {
           callLifeCycleHook('disconnectedCallback');
