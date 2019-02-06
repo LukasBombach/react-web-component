@@ -1,6 +1,6 @@
 {
   "name": "react-web-component",
-  "version": "1.0.14",
+  "version": "2.0.0",
   "description": "Create Web Components with React",
   "main": "src/index.js",
   "types": "index.d.ts",
@@ -22,7 +22,9 @@
     "@types/react": "^16.0.38",
     "babel-cli": "^6.26.0",
     "babel-minify": "^0.3.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-minify": "^0.3.0"
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-minify": "^0.3.0",
+    "babel-plugin-transform-custom-element-classes": "^0.1.0",
+    "babel-plugin-transform-es2015-classes": "^6.24.1"
   }
 }
