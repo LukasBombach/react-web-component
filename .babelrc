@@ -2,13 +2,14 @@
   "presets": [
     ["env", {
       "targets": {
-        "browsers": ["last 2 versions", "safari >= 7"]
+        "browsers": [
+          "last 2 version"
+        ]
       }
     }]
   ],
-  "env": {
-    "production": {
-      "presets": ["minify"]
-    }
-  }
+  "plugins": [
+    "transform-custom-element-classes",
+    "transform-es2015-classes"
+  ]
 }
