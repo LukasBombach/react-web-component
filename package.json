@@ -1,6 +1,6 @@
 {
   "name": "react-web-component",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Create Web Components with React",
   "main": "src/index.js",
   "types": "index.d.ts",
@@ -16,6 +16,7 @@
     "@webcomponents/shadydom": "^1.4.3"
   },
   "peerDependencies": {
+    "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },
   "devDependencies": {

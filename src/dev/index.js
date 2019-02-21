@@ -1,3 +1,4 @@
+const React = require('react');
 const ReactDOM = require('react-dom');
 const retargetEvents = require('react-shadow-dom-retarget-events');
 const getStyleElementsFromReactWebComponentStyleLoader = require('./getStyleElementsFromReactWebComponentStyleLoader');
@@ -61,9 +62,8 @@ module.exports = {
           retargetEvents(shadowRoot);
         }
 
-        ReactDOM.render(app, mountPoint, function () {
+        ReactDOM.render(React.cloneElement(app, extractAttributes(webComponentInstance)) , mountPoint, function () {
           appInstance = this;
-          appInstance.props = Object.assign(extractAttributes(webComponentInstance), appInstance.props);
 
           callConstructorHook(webComponentInstance);
           callLifeCycleHook('connectedCallback');
