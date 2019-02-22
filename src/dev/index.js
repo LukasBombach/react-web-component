@@ -10,10 +10,12 @@ require('@webcomponents/custom-elements');
 module.exports = {
   /**
    * @param {JSX.Element} app
-   * @param {string} tagName - The name of the web component. Has to be minus "-" delimited.
-   * @param {boolean} useShadowDom - If the value is set to "true" the web component will use the `shadowDom`. The default value is true.
+   * @param {string} tagName - The name of the web component. Has to be minus '-' delimited.
+   * @param {Object} config - The config object used to generate the web component.
+   * @param {string} config.useShadowDom - If the value is set to 'true' the web component will use the `shadowDom`. The default value is true.
+   * @param {string} config.cssFile - The css file location in the distribution server. Optional.
    */
-  create: (app, tagName, useShadowDom = true) => {
+  create: (app, tagName, config = { useShadowDom: true }) => {
     let appInstance;
 
     const lifeCycleHooks = {
@@ -44,7 +46,7 @@ module.exports = {
         const webComponentInstance = this;
         let mountPoint = webComponentInstance;
 
-        if (useShadowDom) {
+        if (config.useShadowDom) {
           // Re-assign the webComponentInstance (this) to the newly created shadowRoot
           const shadowRoot = webComponentInstance.attachShadow({ mode: 'open' });
           // Re-assign the mountPoint to the newly created "div" element
@@ -63,14 +65,21 @@ module.exports = {
         }
 
         ReactDOM.render(React.cloneElement(app, extractAttributes(webComponentInstance)) , mountPoint, function () {
-          appInstance = this;
+            appInstance = this;
 
-          callConstructorHook(webComponentInstance);
-          callLifeCycleHook('connectedCallback');
-        });
+            callConstructorHook(webComponentInstance);
+            callLifeCycleHook('connectedCallback');
+          });
+
+        if (config.cssFile) {
+          mountPoint.insertAdjacentHTML(
+            'afterbegin',
+            `<link rel='stylesheet' type='text/css' href='${config.cssFile}'/>`
+          );
+        }
       }
       disconnectedCallback () {
-          callLifeCycleHook('disconnectedCallback');
+        callLifeCycleHook('disconnectedCallback');
       }
       attributeChangedCallback (attributeName, oldValue, newValue, namespace) {
         callLifeCycleHook('attributeChangedCallback', [attributeName, oldValue, newValue, namespace]);
@@ -81,5 +90,5 @@ module.exports = {
     }
 
     customElements.define(tagName, proto);
-  },
+  }
 };
