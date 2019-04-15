@@ -66,11 +66,11 @@ module.exports = {
           appInstance = this;
 
           callConstructorHook(webComponentInstance);
-          callLifeCycleHook('connectedCallback');
+          callLifeCycleHook('connectedCallback', [webComponentInstance]);
         });
       }
       disconnectedCallback () {
-          callLifeCycleHook('disconnectedCallback');
+          callLifeCycleHook('disconnectedCallback', [webComponentInstance]);
       }
       attributeChangedCallback (attributeName, oldValue, newValue, namespace) {
         callLifeCycleHook('attributeChangedCallback', [attributeName, oldValue, newValue, namespace]);
