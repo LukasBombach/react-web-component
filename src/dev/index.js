@@ -62,7 +62,7 @@ module.exports = {
           retargetEvents(shadowRoot);
         }
 
-        ReactDOM.render(React.cloneElement(app, extractAttributes(webComponentInstance)) , mountPoint, function () {
+        ReactDOM.render(React.cloneElement(app, extractAttributes(webComponentInstance)) , mountPoint, () => {
           appInstance = this;
 
           callConstructorHook(webComponentInstance);
