@@ -25,7 +25,7 @@ module.exports = {
     };
 
     function callConstructorHook(webComponentInstance) {
-      if (appInstance['webComponentConstructed']) {
+      if (appInstance && appInstance['webComponentConstructed']) {
         appInstance['webComponentConstructed'].apply(appInstance, [webComponentInstance])
       }
     }
