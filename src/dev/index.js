@@ -13,7 +13,7 @@ module.exports = {
    * @param {string} tagName - The name of the web component. Has to be minus "-" delimited.
    * @param {boolean} useShadowDom - If the value is set to "true" the web component will use the `shadowDom`. The default value is true.
    */
-  create: (app, tagName, useShadowDom = true) => {
+  create: (app, tagName, useShadowDom = true, observedAttributes = [] ) => {
     let appInstance;
 
     const lifeCycleHooks = {
@@ -35,11 +35,14 @@ module.exports = {
       const instanceMethod = lifeCycleHooks[hook];
 
       if (instanceMethod && appInstance && appInstance[instanceMethod]) {
-        appInstance[instanceMethod].apply(appInstance, instanceParams);
+        appInstance[instanceMethod].call(appInstance, instanceParams);
       }
     }
 
     const proto = class extends HTMLElement {
+      static get observedAttributes() {
+        return observedAttributes;
+      };
       connectedCallback() {
         const webComponentInstance = this;
         let mountPoint = webComponentInstance;
