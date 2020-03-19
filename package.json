@@ -11,21 +11,22 @@
     "build": "babel src/dev -d src --presets minify"
   },
   "dependencies": {
-    "react-shadow-dom-retarget-events": "^1.0.8",
-    "@webcomponents/custom-elements": "^1.2.1",
-    "@webcomponents/shadydom": "^1.4.3"
+    "react-shadow-dom-retarget-events": "^1.0.8"
   },
   "peerDependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-transform-classes": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "@types/react": "^16.0.38",
-    "babel-cli": "^6.26.0",
     "babel-minify": "^0.3.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-minify": "^0.3.0",
     "babel-plugin-transform-custom-element-classes": "^0.1.0",
-    "babel-plugin-transform-es2015-classes": "^6.24.1"
+    "babel-preset-minify": "^0.3.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   }
 }
