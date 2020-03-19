@@ -1,15 +1,18 @@
 {
   "presets": [
-    ["env", {
-      "targets": {
-        "browsers": [
-          "last 2 version"
-        ]
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": [
+            "last 2 version"
+          ]
+        }
       }
-    }]
+    ]
   ],
   "plugins": [
     "transform-custom-element-classes",
-    "transform-es2015-classes"
+    "@babel/plugin-transform-classes"
   ]
 }
