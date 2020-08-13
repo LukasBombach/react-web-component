@@ -14,8 +14,9 @@ module.exports = {
    * @param {string} tagName - The name of the web component. Has to be minus "-" delimited.
    * @param {boolean} useShadowDom - If the value is set to "true" the web component will use the `shadowDom`. The default value is true.
    * @param {string[]} observedAttributes - The observed attributes of the web component
+   * @param {string[]} stylePaths - A set of urls to css files
    */
-  create: (app, tagName, useShadowDom = true, observedAttributes = []) => {
+  create: (app, tagName, useShadowDom = true, observedAttributes = [], stylePaths = []) => {
     let appInstance;
 
     const lifeCycleHooks = {
@@ -60,6 +61,14 @@ module.exports = {
           const styles = getStyleElementsFromReactWebComponentStyleLoader();
           styles.forEach((style) => {
             shadowRoot.appendChild(style.cloneNode(shadowRoot));
+          });
+
+          stylePaths.forEach((path) => {
+            const link = document.createElement('link');
+            link.rel  = 'stylesheet';
+            link.type = 'text/css';
+            link.href = path;
+            link.media = 'all';
           });
 
           shadowRoot.appendChild(mountPoint);
