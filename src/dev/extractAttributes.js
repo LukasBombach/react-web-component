@@ -1,3 +1,5 @@
+const camelCasedAttribute = require('./camelCasedAttribute');
+
 /**
  * Takes in a node attributes map and returns an object with camelCased properties and values
  * @param nodeMap
@@ -15,7 +17,7 @@ module.exports = function extractAttributes(nodeMap) {
 
   for (attribute of attributes) {
     const key = Object.keys(attribute)[0];
-    const camelCasedKey = key.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+    const camelCasedKey = camelCasedAttribute(key);
     obj[camelCasedKey] = attribute[key];
   }
 

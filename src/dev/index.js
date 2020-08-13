@@ -2,6 +2,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const retargetEvents = require('react-shadow-dom-retarget-events');
 const getStyleElementsFromReactWebComponentStyleLoader = require('./getStyleElementsFromReactWebComponentStyleLoader');
+const camelCasedAttribute = require('./camelCasedAttribute');
 const extractAttributes = require('./extractAttributes');
 
 require('@webcomponents/shadydom');
@@ -12,8 +13,9 @@ module.exports = {
    * @param {JSX.Element} app
    * @param {string} tagName - The name of the web component. Has to be minus "-" delimited.
    * @param {boolean} useShadowDom - If the value is set to "true" the web component will use the `shadowDom`. The default value is true.
+   * @param {string[]} observedAttributes - The observed attributes of the web component
    */
-  create: (app, tagName, useShadowDom = true) => {
+  create: (app, tagName, useShadowDom = true, observedAttributes = []) => {
     let appInstance;
 
     const lifeCycleHooks = {
@@ -40,6 +42,9 @@ module.exports = {
     }
 
     const proto = class extends HTMLElement {
+      static get observedAttributes() {
+        return observedAttributes;
+      }
       connectedCallback() {
         const webComponentInstance = this;
         let mountPoint = webComponentInstance;
@@ -73,7 +78,7 @@ module.exports = {
           callLifeCycleHook('disconnectedCallback');
       }
       attributeChangedCallback (attributeName, oldValue, newValue, namespace) {
-        callLifeCycleHook('attributeChangedCallback', [attributeName, oldValue, newValue, namespace]);
+        callLifeCycleHook('attributeChangedCallback', [camelCasedAttribute(attributeName), oldValue, newValue, namespace]);
       }
       adoptedCallback (oldDocument, newDocument) {
         callLifeCycleHook('adoptedCallback', [oldDocument, newDocument]);
