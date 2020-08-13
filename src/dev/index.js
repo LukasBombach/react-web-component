@@ -2,6 +2,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const retargetEvents = require('react-shadow-dom-retarget-events');
 const getStyleElementsFromReactWebComponentStyleLoader = require('./getStyleElementsFromReactWebComponentStyleLoader');
+const camelCasedAttribute = require('./camelCasedAttribute');
 const extractAttributes = require('./extractAttributes');
 
 require('@webcomponents/shadydom');
@@ -77,7 +78,7 @@ module.exports = {
           callLifeCycleHook('disconnectedCallback');
       }
       attributeChangedCallback (attributeName, oldValue, newValue, namespace) {
-        callLifeCycleHook('attributeChangedCallback', [attributeName, oldValue, newValue, namespace]);
+        callLifeCycleHook('attributeChangedCallback', [camelCasedAttribute(attributeName), oldValue, newValue, namespace]);
       }
       adoptedCallback (oldDocument, newDocument) {
         callLifeCycleHook('adoptedCallback', [oldDocument, newDocument]);
