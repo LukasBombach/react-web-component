@@ -4,5 +4,5 @@
  * @returns {{}}
  */
 module.exports = function camelCasedAttribute(attribute) {
-  return key.replace(/-([a-z])/g, (g) => g[1].toUpperCase())
+  return attribute.replace(/-([a-z])/g, (g) => g[1].toUpperCase())
 };
