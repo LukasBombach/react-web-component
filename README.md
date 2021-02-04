@@ -51,9 +51,8 @@ By default the `shadowRoot` is enabled. This allows for styles isolation and pre
 In case that you want your component to inherit styles from the parent you can opt-out of the shadowRoot.
 To do that you can pass an **optional** parameter to the `create` method:
 ```js
-ReactWebComponent.create(<App />, 'my-component', true);
+ReactWebComponent.create(<App />, 'my-component', false);
 ```
-
 
 It is also possible to create multiple web components in a single project and pass on props:
 
