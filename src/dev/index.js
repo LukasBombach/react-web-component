@@ -39,7 +39,13 @@ module.exports = {
       }
     }
 
+    const observedAttributes = app.type.observedAttributes;
+
     const proto = class extends HTMLElement {
+      static get observedAttributes() {
+        return observedAttributes || [];
+      }
+
       connectedCallback() {
         const webComponentInstance = this;
         let mountPoint = webComponentInstance;
