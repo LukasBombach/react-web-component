@@ -153,7 +153,7 @@ Using the `react-web-component-style-loader` both the CSS from `app.css` as well
 
 ## Usage with `react-router`
 
-`react-web-component` works with `react-router` with one restriction: Since web components live within a host website you should now modify the URL of the website when the web component does internal routing. Luckily `react-router` comes with an _in memory_ router that does not alter the URL and keeps the state of the router internally.
+`react-web-component` works with `react-router` with one restriction: Since web components live within a host website you should not modify the URL of the website when the web component does internal routing. Luckily `react-router` comes with an _in memory_ router that does not alter the URL and keeps the state of the router internally.
 
 ```javascript
 import React from 'react';
